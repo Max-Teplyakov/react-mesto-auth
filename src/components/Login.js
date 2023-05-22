@@ -1,4 +1,3 @@
-import "./Authorization.css";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import * as auth from "../utils/auth";
@@ -42,7 +41,7 @@ function Login({ handleLogin, isInfoTooltipPopupOpen, onClose }) {
       <Header text="Регистрация" link="sign-up" />
 
       <div className="authorization">
-        <h1 className="authorization__form__title">Вход</h1>
+        <h1 className="authorization__form-title">Вход</h1>
         <form className="authorization__form" onSubmit={handleSubmit}>
           <input
             type="email"

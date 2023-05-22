@@ -1,5 +1,3 @@
-import "./InfoTooltip.css";
-
 function InfoTooltip({ text, img, onClose, isInfoTooltipPopupOpen }) {
   const popupOpened = isInfoTooltipPopupOpen ? "popup_opened" : "";
 

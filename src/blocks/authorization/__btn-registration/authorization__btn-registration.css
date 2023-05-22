@@ -1,0 +1,15 @@
+.authorization__btn-registration {
+  width: 358px;
+  height: 50px;
+  margin-bottom: 15px;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 22px;
+}
+
+@media screen and (max-width: 900px) {
+  .authorization__btn-registration {
+    width: 260px;
+    height: 46px;
+  }
+}
