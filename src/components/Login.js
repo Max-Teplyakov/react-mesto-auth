@@ -1,16 +1,9 @@
-import "./Authorization.css";
-import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-import * as auth from "../utils/auth";
 import Header from "./Header";
-import InfoTooltip from "./InfoTooltip";
-import img from "../images/successful.png";
-import img2 from "../images/notsuccessful.png";
 
-function Login({ handleLogin, isInfoTooltipPopupOpen, onClose }) {
+
+function Login({ handleLogin }) {
   const [formValue, setFormValue] = useState("");
-
-  const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -26,23 +19,15 @@ function Login({ handleLogin, isInfoTooltipPopupOpen, onClose }) {
     if (!formValue.email || !formValue.password) {
       return;
     }
-    auth
-      .login(formValue.password, formValue.email)
-      .then((data) => {
-        if (data.token) {
-          setFormValue({ email: "", password: "" });
-          handleLogin();
-          navigate("/main", { replace: true });
-        }
-      })
-      .catch((err) => console.log(err));
+    const { password, email } = formValue;
+    handleLogin(password, email, setFormValue);
   };
   return (
     <>
       <Header text="Регистрация" link="sign-up" />
 
       <div className="authorization">
-        <h1 className="authorization__form__title">Вход</h1>
+        <h1 className="authorization__form-title">Вход</h1>
         <form className="authorization__form" onSubmit={handleSubmit}>
           <input
             type="email"
@@ -50,7 +35,7 @@ function Login({ handleLogin, isInfoTooltipPopupOpen, onClose }) {
             className="authorization__email"
             id="email-login-input"
             placeholder="Email"
-            value={formValue.email}
+            value={formValue.email || ""}
             onChange={handleChange}
             required
           />
@@ -60,7 +45,7 @@ function Login({ handleLogin, isInfoTooltipPopupOpen, onClose }) {
             className="authorization__password"
             placeholder="Пароль"
             id="login-password-input"
-            value={formValue.password}
+            value={formValue.password || ""}
             onChange={handleChange}
             required
           />
@@ -69,22 +54,7 @@ function Login({ handleLogin, isInfoTooltipPopupOpen, onClose }) {
           </button>
         </form>
       </div>
-      {isInfoTooltipPopupOpen ? (
-        <InfoTooltip
-          text="Вы успешно зарегистрировались!"
-          img={img}
-          onClose={onClose}
-          isInfoTooltipPopupOpen={isInfoTooltipPopupOpen}
-        />
-      ) : (
-        <InfoTooltip
-          text="Что-то пошло не так!
-        Попробуйте ещё раз."
-          img={img2}
-          onClose={onClose}
-          isInfoTooltipPopupOpen={isInfoTooltipPopupOpen}
-        />
-      )}
+      
     </>
   );
 }

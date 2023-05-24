@@ -21,7 +21,7 @@ function PopupWithForm({
         <form
           className={`popup__form popup__form-${name}`}
           onSubmit={onSubmit}
-          name="profile"
+          name={name}
           noValidate
         >
           <fieldset className="popup__form-set">

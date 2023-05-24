@@ -1,22 +1,12 @@
-import "./Authorization.css";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useState } from "react";
-import * as auth from "../utils/auth";
 import Header from "./Header";
-import InfoTooltip from "./InfoTooltip";
 
 function Register({ handleRegistration }) {
   const [formValue, setFormValue] = useState({
     email: "",
     password: "",
   });
-  // const [isActionPopupOpen, setIsActionPopupOpen] = useState(false);
-
-  // function handleActionPopupOpen() {
-  //   setIsActionPopupOpen(true);
-  // }
-
-  const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -36,7 +26,7 @@ function Register({ handleRegistration }) {
     <>
       <Header text="Войти" link="sign-in" />
       <div className="authorization">
-        <h1 className="authorization__form__title">Регистрация</h1>
+        <h1 className="authorization__form-title">Регистрация</h1>
         <form className="authorization__form" onSubmit={handleSubmit}>
           <input
             type="email"

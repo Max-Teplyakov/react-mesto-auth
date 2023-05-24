@@ -14,12 +14,16 @@ import Register from "./Register";
 import Login from "./Login";
 import ProtectedRouteElement from "./ProtectedRoute";
 import * as auth from "../utils/auth";
+import InfoTooltip from "./InfoTooltip";
+import img from "../images/successful.png";
+import img2 from "../images/notsuccessful.png";
 
 function App() {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
   const [isInfoTooltipPopupOpen, setIsInfoTooltipPopupOpen] = useState(false);
+  const [isStatusInfoTooltip, setIsStatusInfoTooltip] = useState(false);
   const [selectedCard, setSelectedCard] = useState(null);
   const [currentUser, setCurrentUser] = useState({});
   const [cards, setCards] = useState([]);
@@ -51,15 +55,33 @@ function App() {
   const handleTokenCheck = () => {
     const jwt = localStorage.getItem("token");
     if (jwt) {
-      auth.checkToken(jwt).then((res) => {
-        if (res) {
-          setUserEmail(res.data.email);
+      auth
+        .checkToken(jwt)
+        .then((res) => {
+          if (res) {
+            setUserEmail(res.data.email);
+            setLoggedIn(true);
+            navigate("/main", { replace: true });
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+  };
+
+  function handleLogin(password, email, setFormValue) {
+    auth
+      .login(password, email)
+      .then((data) => {
+        if (data.token) {
+          setFormValue({ email: "", password: "" });
           setLoggedIn(true);
           navigate("/main", { replace: true });
         }
-      });
-    }
-  };
+      })
+      .catch((err) => console.log(err));
+  }
 
   function handleRegistration(email, password) {
     auth
@@ -67,11 +89,12 @@ function App() {
       .then((res) => {
         if (res) {
           navigate("/sign-in", { replace: true });
+          setIsStatusInfoTooltip(true);
         }
       })
       .catch((err) => {
         console.log(err);
-        setIsInfoTooltipPopupOpen(false);
+        setIsStatusInfoTooltip(false);
       })
       .finally(setIsInfoTooltipPopupOpen(true));
   }
@@ -149,10 +172,6 @@ function App() {
       .catch((err) => console.log(err));
   }
 
-  function handleLogin() {
-    setLoggedIn(true);
-  }
-
   function closeAllPopups() {
     setIsAddPlacePopupOpen(false);
     setIsEditProfilePopupOpen(false);
@@ -177,16 +196,7 @@ function App() {
           path="/sign-up"
           element={<Register handleRegistration={handleRegistration} />}
         />
-        <Route
-          path="/sign-in"
-          element={
-            <Login
-              handleLogin={handleLogin}
-              isInfoTooltipPopupOpen={isInfoTooltipPopupOpen}
-              onClose={closeAllPopups}
-            />
-          }
-        />
+        <Route path="/sign-in" element={<Login handleLogin={handleLogin} />} />
         <Route
           path="/main"
           element={
@@ -234,6 +244,22 @@ function App() {
       {/* <!-- Попап Картиинки --> */}
       {selectedCard && (
         <ImagePopup card={selectedCard} onClose={closeAllPopups} />
+      )}
+      {isStatusInfoTooltip ? (
+        <InfoTooltip
+          text="Вы успешно зарегистрировались!"
+          img={img}
+          isOpen={isInfoTooltipPopupOpen}
+          onClose={closeAllPopups}
+        />
+      ) : (
+        <InfoTooltip
+          text="Что-то пошло не так!
+        Попробуйте ещё раз."
+          img={img2}
+          isOpen={isInfoTooltipPopupOpen}
+          onClose={closeAllPopups}
+        />
       )}
     </CurrentUserContext.Provider>
   );

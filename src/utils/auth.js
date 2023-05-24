@@ -9,6 +9,9 @@ export const register = (password, email) => {
     body: JSON.stringify({ password, email }),
   })
     .then((response) => {
+      if (!response.ok) {
+        return Promise.reject(`Ошибка: ${response.status}`);
+      }
       return response.json();
     })
     .then((res) => {

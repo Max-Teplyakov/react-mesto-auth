@@ -42,7 +42,7 @@ function EditProfilePopup({ isOpen, onClose, onUpdateUser }) {
       <input
         className="popup__form-input popup__form-input_person_name"
         onChange={handleChangeName}
-        value={name}
+        value={name || ""}
         id="name-input"
         name="name"
         type="text"
@@ -55,7 +55,7 @@ function EditProfilePopup({ isOpen, onClose, onUpdateUser }) {
       <input
         className="popup__form-input popup__form-input_person_about-me"
         onChange={handleChangeDescription}
-        value={description}
+        value={description || ""}
         id="about-me-input"
         name="aboutme"
         type="text"

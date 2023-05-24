@@ -1,7 +1,5 @@
-import "./InfoTooltip.css";
-
-function InfoTooltip({ text, img, onClose, isInfoTooltipPopupOpen }) {
-  const popupOpened = isInfoTooltipPopupOpen ? "popup_opened" : "";
+function InfoTooltip({ text, img, onClose, isOpen }) {
+  const popupOpened = isOpen ? "popup_opened" : "";
 
   return (
     <section className={`popup ${popupOpened}`}>

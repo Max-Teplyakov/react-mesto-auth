@@ -28,7 +28,12 @@ function Card({ cardData, onCardClick, onCardLike, onCardDelete }) {
 
   return (
     <div className="element">
-      <img className="element__img" src={cardData.link} onClick={handleClick} />
+      <img
+        className="element__img"
+        alt={cardData.name}
+        src={cardData.link}
+        onClick={handleClick}
+      />
       {isOwn && (
         <button
           className={cardDeleteButtonClassName}
